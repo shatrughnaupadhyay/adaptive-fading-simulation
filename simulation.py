@@ -20,7 +20,7 @@ Metrics (Section IV-C):
 
 Usage:
   python simulation.py             # console output
-  python simulation.py --charts    # also saves charts to prototype/charts/
+  python simulation.py --charts    # Charts saved to charts/
 """
 
 import argparse
