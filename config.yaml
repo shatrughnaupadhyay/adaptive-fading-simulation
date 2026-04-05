@@ -1,0 +1,88 @@
+# Adaptive Fading in Agentic Scaffolding -- Configuration
+# All hyperparameters from the companion paper (Section III-IV).
+
+simulation:
+  n_episodes: 80
+  n_learners_per_archetype: 50
+  n_concepts: 10
+  seeds: [42, 123, 456, 789, 1024]
+
+reward:
+  w1: 0.5   # knowledge gain weight
+  w2: 0.3   # engagement persistence weight
+  w3: 0.2   # reliance penalty weight
+
+skma:
+  alpha: 0.6        # observation vs ground-truth balance (Eq. 2)
+  sigma_k: 0.03     # estimation noise for main experiments
+  cold_start_noise: 0.08   # noise when history < 3 episodes
+
+epm:
+  beta1: 0.6   # engagement weight (Eq. 3)
+  beta2: 0.3   # frustration weight
+  sigma_e: 0.03
+  window: 5    # lookback window for rolling means
+
+fading:
+  theta1: 0.30   # mastery threshold: Passive/Active -> Constructive
+  theta2: 0.55   # mastery threshold: Constructive -> Interactive
+  tau_e: 0.35    # engagement guard threshold
+  tau_h: 0.55    # reliance correction threshold
+  exploration_rate: 0.04   # residual PPO exploration probability
+
+learning_dynamics:
+  phi: 0.6                        # frustration penalty weight (Eq. 8)
+  frustration_increment: 0.04     # per-episode frustration rise under overwhelm
+  frustration_decrement_outsource: 0.02
+  frustration_decrement_productive: 0.03
+  frustration_threshold: 0.5      # gain penalty kicks in above this
+  frustration_gain_penalty: 0.5   # multiplier: gain *= (1 - penalty * f_t)
+  struggle_high: 0.7              # unproductive struggle boundary
+  struggle_low: 0.15              # cognitive outsourcing boundary
+  mastery_low: 0.35               # novice mastery ceiling for overwhelm check
+  outsourcing_factor: 0.4         # learning signal multiplier under outsourcing
+  scaffold_boost:
+    passive_active: 0.6   # b(0) -- Section IV-A
+    constructive: 0.3     # b(1)
+    interactive: 0.0      # b(2)
+  performance_boost_per_level: 0.18   # scaffold boost for immediate correctness
+
+transfer_efficiency:
+  kappa: 0.4        # transfer threshold (Eq. 5)
+  rho: 0.85         # maximum transfer probability
+  sigma_tau: 0.03   # measurement noise
+
+archetypes:
+  Novice:
+    mastery_range: [0.05, 0.25]
+    learning_rate_range: [0.03, 0.06]
+    engagement_range: [0.4, 0.6]
+    reliance_range: [0.5, 0.8]
+  Intermediate:
+    mastery_range: [0.30, 0.55]
+    learning_rate_range: [0.04, 0.07]
+    engagement_range: [0.5, 0.7]
+    reliance_range: [0.3, 0.5]
+  Expert:
+    mastery_range: [0.60, 0.85]
+    learning_rate_range: [0.02, 0.05]
+    engagement_range: [0.6, 0.8]
+    reliance_range: [0.1, 0.3]
+
+sensitivity:
+  noise_levels: [0.0, 0.05, 0.10, 0.15, 0.20, 0.30]
+  threshold_sweep:
+    - [0.20, 0.45]
+    - [0.25, 0.50]
+    - [0.30, 0.55]
+    - [0.35, 0.60]
+    - [0.40, 0.65]
+
+baseline_thresholds:
+  theta1: 0.35   # Threshold-Fade baseline uses different thresholds
+  theta2: 0.65
+
+statistics:
+  bootstrap_resamples: 1000
+  bootstrap_seed: 999
+  significance_levels: [0.05, 0.01, 0.001]
