@@ -1,11 +1,5 @@
 # Adaptive Fading in Agentic Scaffolding -- Simulation Prototype
 
-Companion code for the paper:
-
-> **Adaptive Fading in Agentic Scaffolding: Mitigating the AI Learning Paradox**
-> Shatrughna Upadhyay
-> Submitted for publication (2026)
-
 This repository contains a reproducible simulation of the multi-agent
 fading framework described in the paper.  It implements the synthetic
 learner model (BEAGLE-inspired), the Student Knowledge Modeling Agent
